@@ -1,0 +1,73 @@
+.history-page{
+
+    padding:40px;
+
+}
+
+.history-page h1{
+
+    text-align:center;
+
+    color:#8B0000;
+
+    margin-bottom:40px;
+
+}
+
+.booking-history-card{
+
+    background:white;
+
+    border-radius:10px;
+
+    padding:25px;
+
+    margin-bottom:25px;
+
+    box-shadow:0 0 10px rgba(0,0,0,.15);
+
+}
+
+.booking-history-card h2{
+
+    color:#8B0000;
+
+}
+
+.booking-history-card p{
+
+    margin:10px 0;
+
+}
+
+.status{
+
+    color:green;
+
+    font-weight:bold;
+
+}
+
+.booking-history-card button{
+
+    margin-top:15px;
+
+    padding:12px 20px;
+
+    background:#8B0000;
+
+    color:white;
+
+    border:none;
+
+    border-radius:5px;
+
+    cursor:pointer;
+
+}
+
+.booking-history-card button:hover{
+
+    background:#a00000;
+
+}

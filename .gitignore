@@ -1,0 +1,21 @@
+# Dependencies
+node_modules/
+client/node_modules/
+server/node_modules/
+
+# Environment variables
+.env
+client/.env
+server/.env
+
+# Build folders
+dist/
+build/
+
+# Logs
+*.log
+
+# VS Code
+.vscode/
+
+mongosh-2.9.2-win32-x64/

@@ -1,0 +1,99 @@
+.booking-page{
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    min-height:90vh;
+
+    background:#f4f4f4;
+
+}
+
+.booking-card{
+
+    width:500px;
+
+    background:white;
+
+    padding:30px;
+
+    border-radius:10px;
+
+    box-shadow:0 0 15px rgba(0,0,0,.15);
+
+}
+
+.booking-card h1{
+
+    color:#8B0000;
+
+    text-align:center;
+
+}
+
+.booking-card h2{
+
+    margin-top:20px;
+
+    color:#444;
+
+}
+
+.booking-card p{
+
+    margin:12px 0;
+
+}
+
+.booking-card label{
+
+    display:block;
+
+    margin-top:20px;
+
+    font-weight:bold;
+
+}
+
+.booking-card input{
+
+    width:100%;
+
+    padding:12px;
+
+    margin-top:10px;
+
+    border-radius:5px;
+
+    border:1px solid gray;
+
+}
+
+.booking-card button{
+
+    width:100%;
+
+    margin-top:30px;
+
+    padding:15px;
+
+    border:none;
+
+    background:#8B0000;
+
+    color:white;
+
+    font-size:18px;
+
+    border-radius:5px;
+
+}
+
+.booking-card button:hover{
+
+    background:#a10000;
+
+}
