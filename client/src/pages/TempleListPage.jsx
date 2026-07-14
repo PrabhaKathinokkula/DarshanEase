@@ -7,7 +7,7 @@ function TempleListPage() {
     const [error, setError] = useState('');
 
     useEffect(() => {
-        axios.get('http://localhost:8000/api/temples')
+        axios.get("https://darshanease-8vfl.onrender.com/api/temples")
             .then(response => {
                 setTemples(response.data);
             })
