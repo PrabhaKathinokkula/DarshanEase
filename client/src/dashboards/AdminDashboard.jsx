@@ -27,15 +27,11 @@ function AdminDashboard() {
         try {
             setLoading(true);
            
-            const resMetric = await axios.get("http://localhost:8000/api/dashboard/admin", { headers });
+            const resMetric = await axios.get("  https://darshanease-8vfl.onrender.com/api/dashboard/admin", { headers });
             setMetrics(resMetric.data);
 
            
-const resUsers = await axios.get("http://localhost:8000/api/auth/all-users", { headers });
-
-
-
-
+const resUsers = await axios.get("https://darshanease-8vfl.onrender.com/api/auth/all-users", { headers });  
 
             
             
@@ -54,7 +50,7 @@ const resUsers = await axios.get("http://localhost:8000/api/auth/all-users", { h
         if (window.confirm("Are you sure you want to delete this account configuration profile?")) {
             try {
                 
-                await axios.delete(`http://localhost:8000/api/users/${userId}`, { headers });
+                await axios.delete(` https://darshanease-8vfl.onrender.com/api/users/${userId}`, { headers });
                 alert("Account Deleted Successfully");
                 loadAdminData();
             } catch (err) {
