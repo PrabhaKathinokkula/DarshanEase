@@ -16,7 +16,7 @@ function UserDashboard() {
         }
 
        
-        axios.get('http://localhost:8000/api/temples', {
+      axios.get("https://darshanease-8vfl.onrender.com/api/temples", {
             headers: { Authorization: `Bearer ${token}` }
         })
         .then(response => {
