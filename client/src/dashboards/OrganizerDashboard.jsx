@@ -18,7 +18,7 @@ function OrganizerDashboard() {
     
     const [showUpdateForm, setShowUpdateForm] = useState(false);
     const [showCreateForm, setShowCreateForm] = useState(false);
-    const [editingSlotId, setEditingSlotId] = useState(null); // TRACKS IF EDITING A SLOT
+    const [editingSlotId, setEditingSlotId] = useState(null); 
     
     const [templeForm, setTempleForm] = useState({
         templeName: "", darshanStartTime: "", darshanEndTime: "", location: "", description: "", imageUrl: ""
@@ -35,10 +35,10 @@ function OrganizerDashboard() {
 
     const loadData = async () => {
         try {
-            const resMetric = await axios.get("http://localhost:8000/api/dashboard/organizer", { headers });
+            const resMetric = await axios.get("https://darshanease-8vfl.onrender.com/api/dashboard/organizer", { headers });
             setDashboard(resMetric.data);
 
-            const resTemple = await axios.get("http://localhost:8000/api/temples/my-temple", { headers });
+            const resTemple = await axios.get("https://darshanease-8vfl.onrender.com/api/temples/my-temple", { headers });
             
             let activeTempleId = "6a551c1269daee5b6e3770cc";
 
@@ -55,7 +55,7 @@ function OrganizerDashboard() {
                 activeTempleId = resTemple.data._id;
             }
 
-            const resSlots = await axios.get(`http://localhost:8000/api/slots/temple/${activeTempleId}`);
+            const resSlots = await axios.get(`https://darshanease-8vfl.onrender.com/api/slots/temple/${activeTempleId}`);
             setSlots(resSlots.data);
 
         } catch (err) {
@@ -67,8 +67,8 @@ function OrganizerDashboard() {
         e.preventDefault();
         try {
             const endpoint = temple?._id 
-                ? `http://localhost:8000/api/temples/${temple._id}` 
-                : "http://localhost:8000/api/temples";
+                ? `https://darshanease-8vfl.onrender.com/api/temples/${temple._id}` 
+                : "https://darshanease-8vfl.onrender.com/api/temples";
             
             await axios({
                 method: temple?._id ? 'put' : 'post',
@@ -86,15 +86,15 @@ function OrganizerDashboard() {
         e.preventDefault();
         try {
             if (editingSlotId) {
-                // UPDATE EXISTING SLOT FLOW
-                await axios.put(`http://localhost:8000/api/slots/${editingSlotId}`, {
+               
+                await axios.put(`https://darshanease-8vfl.onrender.com/api/slots/${editingSlotId}`, {
                     ...slotForm,
                     price: slotForm.normalPrice
                 }, { headers });
                 alert("Darshan Slot Updated Successfully");
             } else {
-                // CREATE NEW SLOT FLOW
-                await axios.post("http://localhost:8000/api/slots", { 
+               
+                await axios.post("https://darshanease-8vfl.onrender.com/api/slots", { 
                     ...slotForm, 
                     templeId: temple?._id || "6a551c1269daee5b6e3770cc",
                     price: slotForm.normalPrice
