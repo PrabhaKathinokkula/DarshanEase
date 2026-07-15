@@ -156,6 +156,12 @@ function MyBookingsPage() {
 
 
 
+
+
+
+
+
+
 import React, { useState, useEffect } from "react";
 import API from "../utils/api";
 import "./MyBookingsPage.css";
@@ -232,7 +238,6 @@ function MyBookingsPage() {
             const temple = getExactTempleDetails(item);
             const currentDarshanName = item.slotId?.darshanName || item.darshanName || "Darshan";
             
-            // Clean extraction parsing parameters array limits to avoid syntax crashing
             let displayTiming = "06:00 AM - 08:00 PM";
             if (item.darshanTiming) {
               displayTiming = item.darshanTiming;
@@ -315,4 +320,6 @@ function MyBookingsPage() {
 }
 
 export default MyBookingsPage;
+
+
 
