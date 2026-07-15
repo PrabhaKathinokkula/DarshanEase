@@ -1,4 +1,4 @@
-/*import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import API from "../utils/api";
 import "./MyBookingsPage.css";
 
@@ -152,7 +152,7 @@ function MyBookingsPage() {
     </div>
   );
 }
-//export default MyBookingsPage; */
+export default MyBookingsPage; 
 
 
 
@@ -162,164 +162,6 @@ function MyBookingsPage() {
 
 
 
-import React, { useState, useEffect } from "react";
-import API from "../utils/api";
-import "./MyBookingsPage.css";
-
-function MyBookingsPage() {
-  const [bookingsList, setBookingsList] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    fetchUserBookings();
-  }, []);
-
-  const fetchUserBookings = async () => {
-    try {
-      setLoading(true);
-      const res = await API.get("/bookings/my"); 
-      setBookingsList(res.data || []);
-      setLoading(false);
-    } catch (error) {
-      console.error("Error fetching bookings records:", error);
-      setLoading(false);
-    }
-  };
-
-  const getExactTempleDetails = (item) => {
-    let name = item.templeId?.name || item.slotId?.templeId?.name || "";
-    let image = item.templeId?.image || item.slotId?.templeId?.image || "";
-
-    const checkName = name.toLowerCase().trim();
-    const darshanText = (item.slotId?.darshanName || item.darshanName || "").toLowerCase();
-
-    if (!name || name.toLowerCase().includes("divine")) {
-      if (darshanText.includes("tirupati") || darshanText.includes("tirumala")) {
-        name = "Tirumala Tirupathi";
-      } else if (darshanText.includes("vadapalli")) {
-        name = "Chinna Vadapalli";
-      } else if (darshanText.includes("kanipakam") || darshanText.includes("vinayaka")) {
-        name = "Kanipakam Sri Varasiddhi Vinayaka Swamy Temple";
-      } else if (darshanText.includes("kasi") || darshanText.includes("viswanath")) {
-        name = "Kasi Viswanath Temple";
-      } else {
-        name = item.slotId?.darshanName || "Temple Darshan";
-      }
-    }
-
-    if (!image || image.startsWith("/images/") || image.includes("placeholder")) {
-      if (checkName.includes("tirupati") || checkName.includes("tirumala") || darshanText.includes("tirupati")) {
-        image = "https://images.unsplash.com/photo-1589308078059-be1415eab4c3?q=80&w=400";
-      } else if (checkName.includes("vadapalli") || darshanText.includes("vadapalli")) {
-        image = "https://images.unsplash.com/photo-1590050752117-238cb0fb12b1?q=80&w=400";
-      } else if (checkName.includes("kanipakam") || checkName.includes("vinayaka") || darshanText.includes("kanipakam")) {
-        image = "https://images.unsplash.com/photo-1542442828-287217bfb8e1?q=80&w=400";
-      } else if (checkName.includes("kasi") || checkName.includes("viswanath") || darshanText.includes("kasi")) {
-        image = "https://images.unsplash.com/photo-1602616671505-1115b1c69d5d?q=80&w=400";
-      } else {
-        image = "https://images.unsplash.com/photo-1602616671505-1115b1c69d5d?q=80&w=400";
-      }
-    }
-
-    return { name, image };
-  };
-
-  return (
-    <div className="history-page-root-wrapper">
-      <h2 className="history-section-main-heading">My Bookings</h2>
-
-      {loading ? (
-        <p className="history-loading-msg-label">Loading your booking entries...</p>
-      ) : bookingsList.length === 0 ? (
-        <div className="empty-bookings-notice-box">No active bookings found.</div>
-      ) : (
-        <div className="history-cards-flex-stack">
-          {bookingsList.map((item) => {
-            const temple = getExactTempleDetails(item);
-            const currentDarshanName = item.slotId?.darshanName || item.darshanName || "Darshan";
-            
-            let displayTiming = "06:00 AM - 08:00 PM";
-            if (item.darshanTiming) {
-              displayTiming = item.darshanTiming;
-            } else if (item.slotId?.startTime && item.slotId?.endTime) {
-              displayTiming = `${item.slotId.startTime} - ${item.slotId.endTime}`;
-            }
-
-            return (
-              <div key={item._id} className="horizontal-ticket-card-row">
-                
-                <div 
-                  className="ticket-pure-css-image-side" 
-                  style={{ backgroundImage: `url(${temple.image})` }}
-                  title={temple.name}
-                ></div>
-
-                <div className="ticket-column-box text-field-column-item id-column-width-fix">
-                  <label className="ticket-column-header-title">BookingId</label>
-                  <p className="ticket-column-value-txt monospace-txt-layout break-all-text">
-                    {item.bookingId || item._id}
-                  </p>
-                </div>
-
-                <div className="ticket-column-box text-field-column-item name-column-width-fix">
-                  <label className="ticket-column-header-title">Temple Name</label>
-                  <p className="ticket-column-value-txt highlight-brand-text">
-                    {temple.name}
-                  </p>
-                </div>
-
-                <div className="ticket-column-box text-field-column-item">
-                  <label className="ticket-column-header-title">Darshan Name</label>
-                  <p className="ticket-column-value-txt">
-                    {currentDarshanName}
-                  </p>
-                </div>
-
-                <div className="ticket-column-box text-field-column-item">
-                  <label className="ticket-column-header-title">BookingDate</label>
-                  <p className="ticket-column-value-txt">
-                    {item.bookingDate ? new Date(item.bookingDate).toLocaleDateString() : "7/15/2026"}
-                  </p>
-                </div>
-
-                <div className="ticket-column-box text-field-column-item">
-                  <label className="ticket-column-header-title">Darshan Timing</label>
-                  <p className="ticket-column-value-txt font-size-tighten">
-                    {displayTiming}
-                  </p>
-                </div>
-
-                <div className="ticket-column-box text-field-column-item text-center-alignment">
-                  <label className="ticket-column-header-title">No of Tickets</label>
-                  <p className="ticket-column-value-txt numeric-bold-weight">{item.noOfTickets || 1}</p>
-                </div>
-
-                <div className="ticket-column-box text-field-column-item text-center-alignment">
-                  <label className="ticket-column-header-title">Price</label>
-                  <p className="ticket-column-value-txt price-highlight-text-tint">₹{item.totalAmount || 0}</p>
-                </div>
-
-                <div className="ticket-column-box action-download-btn-column">
-                  <button 
-                    type="button"
-                    onClick={() => alert(`Downloading pass pass: ${item.bookingId || item._id}`)}
-                    className="ticket-download-green-action-btn"
-                    title="Download Pass"
-                  >
-                    📥
-                  </button>
-                </div>
-
-              </div>
-            );
-          })}
-        </div>
-      )}
-    </div>
-  );
-}
-
-export default MyBookingsPage;
 
 
 
