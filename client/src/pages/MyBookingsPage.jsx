@@ -156,7 +156,6 @@ function MyBookingsPage() {
 
 
 
-
 import React, { useState, useEffect } from "react";
 import API from "../utils/api";
 import "./MyBookingsPage.css";
@@ -182,15 +181,12 @@ function MyBookingsPage() {
   };
 
   const getExactTempleDetails = (item) => {
-    // 1. DYNAMICALLY PULL DATA FROM THE OVERALL DATABASE POPULATED SCHEMAS DIRECTLY
     let name = item.templeId?.name || item.slotId?.templeId?.name || "";
     let image = item.templeId?.image || item.slotId?.templeId?.image || "";
 
-    // 2. Normalize raw database attributes cleanly
     const checkName = name.toLowerCase().trim();
     const darshanText = (item.slotId?.darshanName || item.darshanName || "").toLowerCase();
 
-    // 3. SECURE FALLBACK LOGIC IF DYNAMIC BACKEND IMAGES OR NAMES DATA STREAM FAILED
     if (!name || name.toLowerCase().includes("divine")) {
       if (darshanText.includes("tirupati") || darshanText.includes("tirumala")) {
         name = "Tirumala Tirupathi";
@@ -205,8 +201,6 @@ function MyBookingsPage() {
       }
     }
 
-    // 4. IMAGE ASSIGNMENT: If the database contains a true path link, render it immediately.
-    // If it's a broken default/placeholder string, check keyword patterns for fallback high-res arrays.
     if (!image || image.startsWith("/images/") || image.includes("placeholder")) {
       if (checkName.includes("tirupati") || checkName.includes("tirumala") || darshanText.includes("tirupati")) {
         image = "https://images.unsplash.com/photo-1589308078059-be1415eab4c3?q=80&w=400";
@@ -217,7 +211,6 @@ function MyBookingsPage() {
       } else if (checkName.includes("kasi") || checkName.includes("viswanath") || darshanText.includes("kasi")) {
         image = "https://images.unsplash.com/photo-1602616671505-1115b1c69d5d?q=80&w=400";
       } else {
-        // Ultimate clean fallback template representation layout
         image = "https://images.unsplash.com/photo-1602616671505-1115b1c69d5d?q=80&w=400";
       }
     }
@@ -239,17 +232,23 @@ function MyBookingsPage() {
             const temple = getExactTempleDetails(item);
             const currentDarshanName = item.slotId?.darshanName || item.darshanName || "Darshan";
             
+            // Clean extraction parsing parameters array limits to avoid syntax crashing
+            let displayTiming = "06:00 AM - 08:00 PM";
+            if (item.darshanTiming) {
+              displayTiming = item.darshanTiming;
+            } else if (item.slotId?.startTime && item.slotId?.endTime) {
+              displayTiming = `${item.slotId.startTime} - ${item.slotId.endTime}`;
+            }
+
             return (
               <div key={item._id} className="horizontal-ticket-card-row">
                 
-                {/* Dynamic Image Container loaded completely from pure CSS styles parameters hooks bindings */}
                 <div 
                   className="ticket-pure-css-image-side" 
                   style={{ backgroundImage: `url(${temple.image})` }}
                   title={temple.name}
                 ></div>
 
-                {/* Column 2: Booking Id */}
                 <div className="ticket-column-box text-field-column-item id-column-width-fix">
                   <label className="ticket-column-header-title">BookingId</label>
                   <p className="ticket-column-value-txt monospace-txt-layout break-all-text">
@@ -257,7 +256,6 @@ function MyBookingsPage() {
                   </p>
                 </div>
 
-                {/* Column 3: Temple Name */}
                 <div className="ticket-column-box text-field-column-item name-column-width-fix">
                   <label className="ticket-column-header-title">Temple Name</label>
                   <p className="ticket-column-value-txt highlight-brand-text">
@@ -265,7 +263,6 @@ function MyBookingsPage() {
                   </p>
                 </div>
 
-                {/* Column 4: Darshan Name */}
                 <div className="ticket-column-box text-field-column-item">
                   <label className="ticket-column-header-title">Darshan Name</label>
                   <p className="ticket-column-value-txt">
@@ -273,7 +270,6 @@ function MyBookingsPage() {
                   </p>
                 </div>
 
-                {/* Column 5: Booking Date */}
                 <div className="ticket-column-box text-field-column-item">
                   <label className="ticket-column-header-title">BookingDate</label>
                   <p className="ticket-column-value-txt">
@@ -281,27 +277,23 @@ function MyBookingsPage() {
                   </p>
                 </div>
 
-                {/* Column 6: Darshan Timing */}
                 <div className="ticket-column-box text-field-column-item">
                   <label className="ticket-column-header-title">Darshan Timing</label>
                   <p className="ticket-column-value-txt font-size-tighten">
-                    {item.darshanTiming || item.slotId?.startTime && `${item.slotId.startTime} - ${item.slotId.endTime}` || "06:00 AM - 08:00 PM"}
+                    {displayTiming}
                   </p>
                 </div>
 
-                {/* Column 7: No of Tickets */}
                 <div className="ticket-column-box text-field-column-item text-center-alignment">
                   <label className="ticket-column-header-title">No of Tickets</label>
                   <p className="ticket-column-value-txt numeric-bold-weight">{item.noOfTickets || 1}</p>
                 </div>
 
-                {/* Column 8: Price */}
                 <div className="ticket-column-box text-field-column-item text-center-alignment">
                   <label className="ticket-column-header-title">Price</label>
                   <p className="ticket-column-value-txt price-highlight-text-tint">₹{item.totalAmount || 0}</p>
                 </div>
 
-                {/* Column 9: Download Action Button */}
                 <div className="ticket-column-box action-download-btn-column">
                   <button 
                     type="button"
@@ -323,7 +315,4 @@ function MyBookingsPage() {
 }
 
 export default MyBookingsPage;
-
-
-
 
